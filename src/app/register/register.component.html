@@ -1,0 +1,46 @@
+<h1>Register</h1>
+<div class="d-flex justify-content-center align-items-center">
+    <form name="form" class="mt-2" (ngSubmit)="register()" #f="ngForm" style="width: 400px;">
+        <div class="row">
+            <div class="form-group col-12" [ngClass]="{ 'has-error': f.submitted && !userEmail.valid }">
+                <input type="text" class="form-control" name="userEmail" [(ngModel)]="model.email" #userEmail="ngModel"
+                    placeholder="Email" required />
+                <div *ngIf="f.submitted && !userEmail.valid" class="help-block">Field mustn't be empty
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-12" [ngClass]="{ 'has-error': f.submitted && !userName.valid }">
+                <input type="text" class="form-control" name="userName" [(ngModel)]="model.name" #userName="ngModel"
+                    placeholder="Name" required />
+                <div *ngIf="f.submitted && !userName.valid" class="help-block">Field mustn't be empty
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-12" [ngClass]="{ 'has-error': f.submitted && !userSurname.valid }">
+                <input type="text" class="form-control" name="userSurname" [(ngModel)]="model.surname"
+                    #userSurname="ngModel" placeholder="Surname" required />
+                <div *ngIf="f.submitted && !userSurname.valid" class="help-block">Field mustn't be empty
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-12" [ngClass]="{ 'has-error': f.submitted && !userPassword.valid }">
+                <input type="password" class="form-control" name="userPassword" [(ngModel)]="model.password"
+                    #userPassword="ngModel" placeholder="Password" required />
+                <div *ngIf="f.submitted && !userPassword.valid" class="help-block">Field mustn't be empty
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="ui-fluid col-4">
+                <p-button type="submit" class="register-button" [disabled]="f.invalid" label="Register"></p-button>
+            </div>
+        </div>
+
+    </form>
+</div>

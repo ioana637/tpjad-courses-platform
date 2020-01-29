@@ -12,7 +12,7 @@ import { User } from '../utils/structures';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit, OnDestroy {
-  model: User = {username: '', password: ''};
+  model: User = {email: '', password: ''};
   form: FormGroup;
   subscriptions: Subscription[] = [];
 
@@ -34,7 +34,7 @@ export class AuthComponent implements OnInit, OnDestroy {
         this.router.navigate(['/home']);
       },
       (error) => {
-        this.toastService.addError(error.error.issue[0].error);
+        this.toastService.addError(error.message);
         console.log(error);
       }
     ));

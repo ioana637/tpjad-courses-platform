@@ -1,10 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { map } from 'rxjs/operators';
 
-import { User } from '../utils/structures';
-import { loginUserUrl } from './urls';
+import { Role, User } from '../utils/structures';
+import { userLogin, userRegister } from './urls';
 
 @Injectable({
   providedIn: 'root'
@@ -12,30 +11,28 @@ import { loginUserUrl } from './urls';
 export class UsersService {
   httpHeaders: HttpHeaders;
 
-  constructor(private http: HttpClient,
-    private jwtHelper: JwtHelperService) {
+  constructor(private http: HttpClient) {
     this.httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
+      'Accept': '*/*',
+      'Access-Control-Allow-Origin': '*'
     });
   }
 
   login(user: User) {
-    return this.http.post(loginUserUrl, JSON.stringify(user), { headers: this.httpHeaders })
-      .pipe(map((obj: User) => {
-        this.setCurrentUserInLocalStorage(obj);
-        return obj;
+    return this.http.post(userLogin, JSON.stringify(user), {headers: this.httpHeaders})
+      .pipe(map((user: User) => {
+        this.setCurrentUserInLocalStorage(user);
+        return user;
       }));
   }
 
+  register(user:User) {
+    return this.http.post(userRegister, JSON.stringify(user), {headers: this.httpHeaders});
+  }
+
   private setCurrentUserInLocalStorage(obj: User) {
-    localStorage.setItem('currentUser', JSON.stringify({
-      _id: obj._id,
-      token: obj.token,
-      username: obj.username,
-      role: obj.role,
-      name: obj.name,
-      password: obj.password,
-    }));
+    localStorage.setItem('currentUser', JSON.stringify(obj));
   }
 
   logout() {
@@ -43,21 +40,6 @@ export class UsersService {
     // TODO: logout de la server
   }
 
-  getCurrentUsername(): string {
-    const obj = JSON.parse(localStorage.getItem('currentUser'));
-    if (obj && obj.username) {
-      return obj.username;
-    }
-    return undefined;
-  }
-
-  getCurrentIsAdmin(): string {
-    const obj = JSON.parse(localStorage.getItem('currentUser'));
-    if (obj && obj.role) {
-      return obj.role;
-    }
-    return undefined;
-  }
 
   getCurrentUser(): User {
     const obj = JSON.parse(localStorage.getItem('currentUser'));
@@ -69,14 +51,22 @@ export class UsersService {
 
   isAuthenticated(): boolean {
     const user = this.getCurrentUser();
-    if (user && !this.jwtHelper.isTokenExpired(user.token)) {
+    if (user) {
       return true;
     } else return false;
   }
 
   isAuthenticatedProfessor(): boolean {
     const user = this.getCurrentUser();
-    if (user && !this.jwtHelper.isTokenExpired(user.token) && user.role === 'professor') {
+    if (user && user.role === Role.PROFESSOR) {
+      return true;
+    }
+    return false;
+  }
+
+  isAuthenticatedStudent(): boolean {
+    const user = this.getCurrentUser();
+    if (user && user.role === Role.STUDENT) {
       return true;
     }
     return false;

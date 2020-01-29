@@ -1,44 +1,31 @@
-<form name="form" class="mt-2"
-      (ngSubmit)="login()"
-      #f="ngForm">
-  <div class="row">
-    <div class="form-group col-4"
-         [ngClass]="{ 'has-error': f.submitted && !adminUsername.valid }">
-      <input type="text"
-             class="form-control"
-             name="adminUsername"
-             [(ngModel)]="model.username"
-             #adminUsername="ngModel"
-             placeholder="Username"
-             required/>
-      <div *ngIf="f.submitted && !adminUsername.valid"
-           class="help-block">Field mustn't be empty
+<div class="d-flex justify-content-center align-items-center">
+  <form name="form" class="mt-2" (ngSubmit)="login()" #f="ngForm" style="width: 400px;">
+    <div class="row">
+      <div class="form-group col-12" [ngClass]="{ 'has-error': f.submitted && !adminEmail.valid }">
+        <input type="text" class="form-control" name="adminEmail" [(ngModel)]="model.email" #adminEmail="ngModel"
+          placeholder="Email" required />
+        <div *ngIf="f.submitted && !adminEmail.valid" class="help-block">Field mustn't be empty
+        </div>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="form-group col-4"
-         [ngClass]="{ 'has-error': f.submitted && !adminPassword.valid }">
-      <input type="password"
-             class="form-control"
-             name="adminPassword"
-             [(ngModel)]="model.password"
-             #adminPassword="ngModel"
-             placeholder="Password"
-             required/>
-      <div *ngIf="f.submitted && !adminPassword.valid"
-           class="help-block">Field mustn't be empty
+    <div class="row">
+      <div class="form-group col-12" [ngClass]="{ 'has-error': f.submitted && !adminPassword.valid }">
+        <input type="password" class="form-control" name="adminPassword" [(ngModel)]="model.password"
+          #adminPassword="ngModel" placeholder="Password" required />
+        <div *ngIf="f.submitted && !adminPassword.valid" class="help-block">Field mustn't be empty
+        </div>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="ui-fluid col-4">
-      <p-button type="submit"
-                class="login-button"
-                [disabled]="f.invalid"
-                label="Login"></p-button>
+    <div class="row">
+      <div class="ui-fluid col-4">
+        <p-button type="submit" class="login-button" [disabled]="f.invalid" label="Login"></p-button>
+      </div>
+      <div class="ui-fluid offset-4 col-4">
+        <a class="register-link" href="/register">Go to Register</a>
+      </div>
     </div>
-  </div>
 
-</form>
+  </form>
+</div>
+
 <p-toast></p-toast>
