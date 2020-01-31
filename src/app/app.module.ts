@@ -7,6 +7,7 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
+import {PanelMenuModule} from 'primeng/panelmenu';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,7 +19,7 @@ import { RegisterComponent } from './register/register.component';
   declarations: [
     AppComponent,
     AuthComponent,
-    RegisterComponent
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,6 +31,7 @@ import { RegisterComponent } from './register/register.component';
     HttpClientModule,
     InputTextModule,
     ToastModule,
+    PanelMenuModule,
   ],
   providers: [
     HttpClient,

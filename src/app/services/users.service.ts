@@ -21,9 +21,9 @@ export class UsersService {
 
   login(user: User) {
     return this.http.post(userLogin, JSON.stringify(user), {headers: this.httpHeaders})
-      .pipe(map((user: User) => {
-        this.setCurrentUserInLocalStorage(user);
-        return user;
+      .pipe(map((response: {session_id: string, user: User}) => {
+        this.setCurrentUserInLocalStorage(response);
+        return response.user;
       }));
   }
 
@@ -31,7 +31,7 @@ export class UsersService {
     return this.http.post(userRegister, JSON.stringify(user), {headers: this.httpHeaders});
   }
 
-  private setCurrentUserInLocalStorage(obj: User) {
+  private setCurrentUserInLocalStorage(obj: {session_id: string, user: User}) {
     localStorage.setItem('currentUser', JSON.stringify(obj));
   }
 
@@ -44,7 +44,7 @@ export class UsersService {
   getCurrentUser(): User {
     const obj = JSON.parse(localStorage.getItem('currentUser'));
     if (obj) {
-      return obj;
+      return obj.user;
     }
     return undefined;
   }
@@ -58,7 +58,7 @@ export class UsersService {
 
   isAuthenticatedProfessor(): boolean {
     const user = this.getCurrentUser();
-    if (user && user.role === Role.PROFESSOR) {
+    if (user && user.role === 'PROFESSOR') {
       return true;
     }
     return false;
@@ -66,7 +66,7 @@ export class UsersService {
 
   isAuthenticatedStudent(): boolean {
     const user = this.getCurrentUser();
-    if (user && user.role === Role.STUDENT) {
+    if (user && user.role === 'STUDENT') {
       return true;
     }
     return false;

@@ -5,15 +5,15 @@ import {UsersService} from './users.service';
 @Injectable({
   providedIn: 'root'
 })
-export class RoleGuardService implements CanActivate {
+export class StudentGuardService implements CanActivate {
 
   constructor(private userService: UsersService,
               private router: Router) {
   }
 
   canActivate(): boolean {
-    if (!this.userService.isAuthenticatedProfessor()) {
-      this.router.navigate(['home/courses']);
+    if (!this.userService.isAuthenticatedStudent()) {
+      this.router.navigate(['home/student']);
       return false;
     }
     return true;

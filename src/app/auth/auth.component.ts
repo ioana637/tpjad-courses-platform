@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import { UsersService } from '../services/users.service';
 import { ToastService } from '../services/toast.service';
-import { User } from '../utils/structures';
+import { User, Role } from '../utils/structures';
 
 @Component({
   selector: 'app-auth',
@@ -31,7 +31,11 @@ export class AuthComponent implements OnInit, OnDestroy {
   login() {
     this.subscriptions.push(this.userService.login(this.model).subscribe(
       (obj: User) => {
-        this.router.navigate(['/home']);
+        if (obj.role === 'STUDENT') {
+          this.router.navigate(['/student']);
+        } else if (obj.role === 'PROFESSOR') {
+          this.router.navigate(['/professor']);
+        }
       },
       (error) => {
         this.toastService.addError(error.message);
