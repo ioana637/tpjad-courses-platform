@@ -31,7 +31,6 @@ import { RegisterComponent } from './register/register.component';
     HttpClientModule,
     InputTextModule,
     ToastModule,
-    PanelMenuModule,
   ],
   providers: [
     HttpClient,

@@ -1,1 +1,28 @@
-<p>home-professor works!</p>
+
+<div class="row">
+    <div class="col-2">
+        <p-sidebar [visible]="true" position="left" [style]="{width:'17%'}" [showCloseIcon]="false"
+        [dismissible]="false" [modal]="false">
+        <div class="row m-2 mb-3">
+            <h4><b>MENU</b></h4>
+        </div>    
+        <div class="row ml-1 mt-1">
+            <button type="button" class="mr-2 btn btn-light" routerLinkActive="active"
+            style="width: 100%;" [routerLink]="['courses']"><i class="pi pi-file" style="float: left;"></i>My Courses</button>
+        </div>
+        <div class="row ml-1 mt-1">
+            <button type="button" class="mr-2 btn btn-light" routerLinkActive="active"
+             style="width: 100%;" [routerLink]="['settings']"><i class="pi pi-user-edit" style="float: left;"></i>Account Settings</button>
+        </div>
+        <div class="row ml-1 mt-1">
+            <button type="button" class="mr-2 btn btn-light" routerLinkActive="active"
+            style="width: 100%;" [routerLink]="['logout']"><i class="pi pi-sign-out" style="float: left;"></i>Logout</button> 
+        </div>
+
+        </p-sidebar>
+    </div>
+    <div class="col-10">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+
