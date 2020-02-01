@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { UsersService } from 'src/app/services/users.service';
+import { ToastService } from 'src/app/services/toast.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-professor',
@@ -7,9 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeProfessorComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userService: UsersService, 
+    private router: Router,
+    private toastService: ToastService) { }
 
   ngOnInit() {
   }
+
+  logout() {
+    this.userService.logout().subscribe((res) => {
+      this.router.navigate(['/login']);
+    }, (error) => {
+      console.log(error);
+      this.toastService.addError('');
+    })
+  }
+
 
 }

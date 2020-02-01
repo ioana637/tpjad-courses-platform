@@ -1,0 +1,81 @@
+<div class="row m-1">
+    <div class="col-12 " style="text-align: center;">
+        <h1>Change Settings Account for user {{currentUser.name}}</h1>
+    </div>
+    <div class="col-2">
+        <div class="row mt-3">
+            <div class="col-12 square">
+                <img [src]="previewURL" class="image">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput accept="image/*">
+            <button type="button" class="btn btn-primary col-6 ml-3" (click)="fileInput.click()">Select File</button>
+        </div>
+    </div>
+    <div class="col-10">
+        <div class="row d-flex justify-content-center align-items-center">
+            <form name="form" class="mt-2 col-12" (ngSubmit)="saveSettings()" #f="ngForm" style="width: 400px;">
+                <div class="form-group row">
+                    <label class="col-2 offset-2">Email</label>
+                    <input type="text" class="col-7 form-control" name="userEmail" [(ngModel)]="currentUser.email"
+                        #userEmail="ngModel" placeholder="Email" disabled />
+                </div>
+
+                <div class="form-group row" [ngClass]="{ 'has-error': f.submitted && !userName.valid }">
+                    <label class="col-2 offset-2">Name</label>
+                    <input type="text" class="col-7 form-control" name="userName" [(ngModel)]="currentUser.name"
+                        #userName="ngModel" placeholder="Name" required/>
+                    <div *ngIf="f.submitted && !userName.valid" class="help-block">Field mustn't be empty
+                    </div>
+                </div>
+
+                
+                <div class="form-group row" [ngClass]="{ 'has-error': f.submitted && !userSurname.valid }">
+                    <label class="col-2 offset-2">Surname</label>
+                    <input type="text" class="col-7 form-control" name="userSurname" [(ngModel)]="currentUser.surname"
+                        #userSurname="ngModel" placeholder="Surname" required/>
+                    <div *ngIf="f.submitted && !userSurname.valid" class="help-block">Field mustn't be empty
+                    </div>
+                </div>
+
+                <div class="form-group row" [ngClass]="{ 'has-error': f.submitted && !userRole.valid }">
+                    <label class="col-2 offset-2">Role</label>
+                    <input type="text" class="col-7 form-control" name="userRole" [(ngModel)]="currentUser.role"
+                        #userRole="ngModel" placeholder="Role" disabled/>
+                </div>
+
+                <div class="form-group row" [ngClass]="{ 'has-error': f.submitted && !userPassword.valid }">
+                    <label class="col-2 offset-2">Password</label>
+                    <input type="password" class="col-7 form-control" name="userPassword" [(ngModel)]="currentUser.password"
+                        #userPassword="ngModel" placeholder="Password" required/>
+                    <div *ngIf="f.submitted && !userPassword.valid" class="help-block">Field mustn't be empty
+                    </div>
+                </div>
+
+                <div class="form-group row" [ngClass]="{ 'has-error': f.submitted && !userNewPassword.valid }">
+                    <label class="col-2 offset-2">New Password</label>
+                    <input type="password" class="col-7 form-control" name="userNewPassword" [(ngModel)]="currentUser.newPassword"
+                        #userNewPassword="ngModel" placeholder="New Password"/>
+                    <div *ngIf="f.submitted && !userNewPassword.valid && userRewritePassword !== userNewPassword" class="help-block">Field mustn't be empty
+                    </div>
+                </div>
+
+                <div class="form-group row" [ngClass]="{ 'has-error': f.submitted && !userRewritePassword.valid }">
+                    <label class="col-2 offset-2">Rewrite Password</label>
+                    <input type="password" class="col-7 form-control" name="userRewritePassword" [(ngModel)]="currentUser.rewritePassword"
+                        #userRewritePassword="ngModel" placeholder="Rewrite Password"/>
+                    <div *ngIf="f.submitted && !userRewritePassword.valid && userRewritePassword !== userNewPassword" class="help-block">
+                        Field mustn't be empty
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="ui-fluid col-2 offset-2">
+                        <button type="submit" class="btn btn-warning" [disabled]="f.invalid">Save Settings</button>
+                    </div> 
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

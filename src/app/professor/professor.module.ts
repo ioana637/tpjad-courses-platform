@@ -6,6 +6,7 @@ import { CoursesComponent } from './courses/courses.component';
 import { HomeProfessorComponent } from './home-professor/home-professor.component';
 import { ProfessorRoutingModule } from './professor-routing.module';
 import { ButtonModule } from 'primeng/button';
+import { CommonsModule } from '../commons/commons.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ButtonModule } from 'primeng/button';
     CommonModule,
     ProfessorRoutingModule,
     SidebarModule,
-    ButtonModule
+    ButtonModule,
+    CommonsModule
   ]
 })
 export class ProfessorModule { }
