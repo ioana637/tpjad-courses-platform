@@ -1,1 +1,8 @@
-<p>courses works!</p>
+<div class="row">
+    <div class="col-3 m-3">
+        <button class="btn btn-success" [routerLink]="['add']">
+            Add new course
+        </button>
+    </div>
+</div>
+<app-course-card [course]="course"></app-course-card>

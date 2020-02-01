@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CoursesComponent } from './courses/courses.component';
 import { HomeProfessorComponent } from './home-professor/home-professor.component';
 import { AccountSettingsComponent } from '../commons/account-settings/account-settings.component';
+import { AddEditCourseComponent } from '../commons/add-edit-course/add-edit-course.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,14 @@ const routes: Routes = [
       {
         path: 'courses',
         component: CoursesComponent
+      },
+      {
+        path: 'courses/add',
+        component: AddEditCourseComponent
+      },
+      {
+        path: 'courses/:id',
+        component: AddEditCourseComponent
       },
       {
         path: 'settings',

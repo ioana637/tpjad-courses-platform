@@ -1,0 +1,23 @@
+<p-dialog header="Share news with the enrolled students" [(visible)]="display" [closable]="false">
+    <form name="form" (ngSubmit)="sendEmails()" #f="ngForm">
+        <div class="row mt-1">
+            <div class="col-3">Message</div>
+            <div class="col-9"><textarea type="text" class="form-control" name="messageTextarea" #messageTextarea="ngModel"
+                    required pTooltip="Field mustn't be empty" tooltipPosition="top" [(ngModel)]="message"></textarea></div>
+      </div>
+      <div class="row">
+        <div class="col-12 mt-3 btn-outline-danger" *ngIf="errorMessage"> {{errorMessage}}</div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-6">
+          <button pButton type="submit" class="ui-button-warning d-flex align-items-center justify-content-center"
+                  [disabled]="!(f.valid)">Send message</button>
+        </div>
+        <div class="col-4">
+          <button pButton type="button" class="ui-button-secondary d-flex align-items-center justify-content-center"
+                  (click)="onClose()">Cancel</button>
+        </div>
+        </div>
+    </form>
+</p-dialog>
+  

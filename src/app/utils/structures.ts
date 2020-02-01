@@ -16,3 +16,23 @@ export interface User {
   picture?: File | string;
 }
 
+export interface Course {
+  description?: string;
+  id?: number;
+  lectures?: Lecture[];
+  maxStudents?: number;
+  studentsSignedIn?: number;
+  title?: string;
+  year?: string;
+  users?: User[];
+}
+
+export interface Lecture {
+  courseId?: number;
+  attachment?: File | string;
+  date?: Date;
+  filename?: string;
+  id?: number;
+  title?: string; 
+}
+

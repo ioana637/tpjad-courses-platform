@@ -1,0 +1,36 @@
+<div class="row d-flex m-4" style="width: 300px; height: 175px; border: 2px solid #ffc107;
+border-radius: 5px;">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12 mt-2">
+                <h4>{{course.title}}</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <h6>{{course.description}}</h6>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <h6>{{course.year}}</h6>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+               <h6> Students:  {{course.studentsSignedIn}}/{{course.maxStudents}}</h6>
+            </div>
+        </div>
+
+        <div class="row">
+            <button class="btn btn-warning col-4 ml-2" (click)="shareNews()"
+            ><i class="fa fa-bullhorn mr-1"></i>News</button>
+            <button class="btn btn-warning col-4 offset-3" (click)="editCourse()"><i class="fa fa-edit mr-1"></i>Edit</button>
+        </div>
+    </div>
+</div>
+
+<app-share-news [(display)]="display" (displayChange)="emailsWereSent()"></app-share-news>

@@ -32,7 +32,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.userService.register(this.model).subscribe(
       (user) => { this.router.navigate(['/login']) },
       (error) => {
-        this.toastService.addError(error.message);
+        this.toastService.addError(error.error.message);
         console.log(error);
       }));
   }

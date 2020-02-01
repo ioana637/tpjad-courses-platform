@@ -22,7 +22,7 @@ export class HomeStudentComponent implements OnInit {
       this.router.navigate(['/login']);
     }, (error) => {
       console.log(error);
-      this.toastService.addError('');
+      this.toastService.addError(error.error.message);
     })
   }
 

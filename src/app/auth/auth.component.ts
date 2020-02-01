@@ -38,7 +38,7 @@ export class AuthComponent implements OnInit, OnDestroy {
         }
       },
       (error) => {
-        this.toastService.addError(error.message);
+        this.toastService.addError(error.error.message);
         console.log(error);
       }
     ));

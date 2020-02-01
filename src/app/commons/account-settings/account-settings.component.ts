@@ -61,7 +61,7 @@ export class AccountSettingsComponent implements OnInit {
       this.toastService.addSuccess('Changes successfully saved!');
     }, (err) => {
       console.log(err);
-      this.toastService.addError('');
+      this.toastService.addError(err.error.message);
     })
   }
 
