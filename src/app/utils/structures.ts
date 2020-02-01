@@ -13,6 +13,6 @@ export interface User {
   name?: string;
   surname?: string;
   role?: string;
-  picture?: File;
+  picture?: File | string;
 }
 
