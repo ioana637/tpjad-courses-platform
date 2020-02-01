@@ -1,0 +1,35 @@
+<p-dialog header="View enrolled students" [(visible)]="display" [closable]="false">
+    <div class="row" style="width: 700px; margin: 0;">
+        <div class="col-12">
+            <p-table *ngIf="students.length > 0" [value]="students">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Name</th>
+                        <th>Surname</th>
+                        <th>Email</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-student>
+                    <tr>
+                        <td>{{student.name}}</td>
+                        <td>{{student.surname}}</td>
+                        <td>{{student.email}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+            <div *ngIf="students.length === 0" class="row d-flex text-center">
+                <div class="col-12">
+                    There are no students enrolled in your course!
+                </div>
+            </div>
+            <div class="row mt-3 ">
+                <div class="col-12" style="float: right;">
+                    <button type="button"
+                        class="btn btn-warning d-flex align-items-center justify-content-center text-center"
+                        (click)="onClose()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</p-dialog>

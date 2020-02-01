@@ -12,10 +12,12 @@ export class UsersService {
   httpHeaders: HttpHeaders;
 
   constructor(private http: HttpClient) {
+    const sessionId = this.getSessionId();
     this.httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': '*/*',
-      'Access-Control-Allow-Origin': '*'
+      'Access-Control-Allow-Origin': '*',
+      // 'sessionId': sessionId
     });
   }
 
@@ -60,7 +62,28 @@ export class UsersService {
     const formData = new FormData();
     formData.append('file', user.picture);
 
+    // this.httpHeaders = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   'Accept': '*/*',
+    //   'Access-Control-Allow-Origin': '*',
+    //   'sessionId': this.getSessionId()
+    // });
+
+    this.httpHeaders.set('sessionId', this.getSessionId());
+    // this.httpHeaders.append('session-id', this.getSessionId());
+
+    console.log(this.getSessionId());
+    console.log(this.httpHeaders);
+
     return this.http.put(userSaveAccountSettings, formData, {headers: this.httpHeaders, params: parameters});
+  }
+
+  getSessionId(): string | string[] {
+    const obj = JSON.parse(localStorage.getItem('currentUser'));
+    if (obj) {
+      return obj.session_id;
+    }
+    return '';
   }
 
   isAuthenticated(): boolean {

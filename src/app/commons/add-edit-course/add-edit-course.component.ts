@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Course } from 'src/app/utils/structures';
+import { Course, Lecture } from 'src/app/utils/structures';
 
 @Component({
   selector: 'app-add-edit-course',
@@ -12,6 +12,7 @@ export class AddEditCourseComponent implements OnInit {
   idCourse: number;
   course: Course;
   mode: string;
+  display = false;
 
   constructor(private route: ActivatedRoute) { }
 
@@ -20,6 +21,30 @@ export class AddEditCourseComponent implements OnInit {
     if (this.idCourse) {
       console.log('editMode', this.idCourse);
       this.mode = 'edit';
+      this.course = {
+        description: 'Description',
+        id: 37,
+        lectures: [
+          {
+            courseId: 37,
+            date: new Date(),
+            filename: 'l1.pdf',
+            id: 15,
+            title: 'Lecture 1'
+          },
+          {
+            courseId: 37,
+            date: new Date(),
+            filename: 'l2.pdf',
+            id: 16,
+            title: 'Lecture 2'
+          },
+        ],
+        maxStudents: 100,
+        studentsSignedIn: 37,
+        title: 'Title',
+        year: '2020'
+      }
     }
     else {
       console.log('add Mode');
@@ -44,7 +69,6 @@ export class AddEditCourseComponent implements OnInit {
   }
 
   onFileChanged(file, lecture) {
-    console.log(file.target.files[0].name, lecture);
     lecture.filename = file.target.files[0].name;
     lecture.attachment = <File>file.target.files[0];
   }
@@ -56,6 +80,23 @@ export class AddEditCourseComponent implements OnInit {
       attachment: null,
       filename: ''
     })
+  }
+
+  saveCourse() {
+    console.log('save course');
+    console.log(this.course);
+  }
+
+  deleteLecture(lecture: Lecture, index: number){
+    this.course.lectures.splice(index,1);
+  }
+
+  seeEnrolledStudents(){
+    this.display = true;
+  }
+
+  dialogClosed(){
+    // this.display = false;
   }
 
 }
