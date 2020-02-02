@@ -5,7 +5,7 @@
     </div>
 </div>
 
-<div class="row d-flex justify-content-center align-items-center">
+<div class="row d-flex justify-content-center align-items-center" *ngIf="course">
     <form name="form" class="mt-2 col-12" (ngSubmit)="saveCourse()" #f="ngForm" style="width: 400px;">
         <div class="form-group row">
             <div class="col-3 offset-1">
@@ -91,3 +91,5 @@
 </div>
 
 <app-students-dialog *ngIf="mode === 'edit'" [(display)]="display" [courseId]="idCourse" (displayChange)="dialogClosed()"></app-students-dialog>
+
+<p-toast></p-toast>

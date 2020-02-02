@@ -5,4 +5,11 @@
         </button>
     </div>
 </div>
-<app-course-card [course]="course"></app-course-card>
+<div *ngIf="!courses || courses.length === 0">
+    <h6>There aren't any courses to be displayed</h6>
+</div>
+<div *ngIf="courses && courses.length > 0">
+    <div *ngFor="let course of courses">
+        <app-course-card [course]="course" (messageToShow)="messageReceived($event)"></app-course-card>
+    </div>
+</div>

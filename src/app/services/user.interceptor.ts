@@ -11,16 +11,13 @@ export class UserInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const obj = JSON.parse(localStorage.getItem('currentUser'));
-    console.log('intercept');
     if (obj && obj.email && obj.password) {
-      console.log(obj);
       request = request.clone({
         setHeaders: {
           Authorization: `Basic ${btoa(`${obj.email}:${obj.password}`)}`
         }
       });
     }
-    console.log(request);
     return next.handle(request);
   }
 }

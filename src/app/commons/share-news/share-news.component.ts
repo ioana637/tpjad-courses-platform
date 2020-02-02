@@ -2,6 +2,7 @@ import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ToastService } from 'src/app/services/toast.service';
+import { CoursesService } from 'src/app/services/courses.service';
 
 @Component({
   selector: 'app-share-news',
@@ -11,12 +12,15 @@ import { ToastService } from 'src/app/services/toast.service';
 export class ShareNewsComponent implements OnInit {
   form: FormGroup;
   @Input() display: boolean;
-  @Output() displayChange = new EventEmitter();
+  @Input() courseId: number;
+  @Output() displayChange = new EventEmitter<boolean>();
+  @Output() messageEmitter = new EventEmitter<string>();
   subscriptions: Subscription[] = [];
   message: string;
   errorMessage: string;
 
-  constructor(private toastService: ToastService) {
+  constructor(
+    private coursesService: CoursesService) {
   }
 
   ngOnInit() {
@@ -32,9 +36,14 @@ export class ShareNewsComponent implements OnInit {
   }
 
   sendEmails() {
-    console.log(this.message);
     if (this.message) {
-      this.toastService.addSuccess('Emails sent succesfully');
+      this.subscriptions.push(this.coursesService.sendMailToStudents({courseId: this.courseId, message: this.message})
+      .subscribe((res) => {
+        this.messageEmitter.emit('ok');
+        this.onClose();
+      }, (err) => {
+        this.messageEmitter.emit(err.error.message);
+      }))
     }
   }
 

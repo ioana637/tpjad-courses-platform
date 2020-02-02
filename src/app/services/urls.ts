@@ -6,7 +6,7 @@ export const userLogout = `${userManagementUrl}/logout`;
 export const userRegister = `${userManagementUrl}/register`;
 export const userSaveAccountSettings = `${userManagementUrl}/save-account-settings`;
 
-export const coursesManagementUrl = `${baseUrl}/courses`;
+export const coursesManagementUrl = `${baseUrl}/courses-management/courses`;
 export const coursesGetAll = `${coursesManagementUrl}`;
 export const coursesAddEdit = `${coursesManagementUrl}`;
 export const coursesSendNewsToStudents = `${coursesManagementUrl}/email`;

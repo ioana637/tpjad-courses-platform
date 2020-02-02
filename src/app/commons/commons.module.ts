@@ -12,6 +12,7 @@ import { ShareNewsComponent } from './share-news/share-news.component';
 import { AddEditCourseComponent } from './add-edit-course/add-edit-course.component';
 import { StudentsDialogComponent } from './students-dialog/students-dialog.component';
 import { CourseCardStudentComponent } from './course-card-student/course-card-student.component';
+import { ToastModule } from 'primeng/toast';
 
 
 
@@ -30,7 +31,8 @@ import { CourseCardStudentComponent } from './course-card-student/course-card-st
     ButtonModule,
     DialogModule,
     TooltipModule,
-    TableModule
+    TableModule,
+    ToastModule
   ],
   exports: [
     AccountSettingsComponent,

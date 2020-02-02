@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Course } from 'src/app/utils/structures';
 import { Router } from '@angular/router';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-course-card',
@@ -10,22 +11,30 @@ import { Router } from '@angular/router';
 export class CourseCardComponent implements OnInit {
 
   @Input() course: Course;
+  @Output() messageToShow = new EventEmitter<any>();
   display = false;
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+    ) { }
 
   ngOnInit() {
   }
 
   shareNews() {
     this.display = true;
-    console.log('share news');
   }
 
   emailsWereSent() {
-    console.log('close sending emails');
   }
 
   editCourse(){
     this.router.navigate([`professor/courses/${this.course.id}`]); 
+  }
+
+  showMessage(message) {
+    if (message === 'ok'){
+      this.messageToShow.emit({type: 'success', message:'Emails sent successfully'});
+    } else {
+      this.messageToShow.emit({message, type: 'error'});
+    }
   }
 }

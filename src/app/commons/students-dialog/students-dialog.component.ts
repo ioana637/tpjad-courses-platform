@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ToastService } from 'src/app/services/toast.service';
 import { User } from 'src/app/utils/structures';
+import { CoursesService } from 'src/app/services/courses.service';
 
 @Component({
   selector: 'app-students-dialog',
@@ -16,28 +17,14 @@ export class StudentsDialogComponent implements OnInit {
   subscriptions: Subscription[] = [];
   students: User[]=[];
 
-  constructor(private toastService: ToastService) {
+  constructor(private toastService: ToastService,
+    private coursesService: CoursesService) {
   }
 
   ngOnInit() {
-    // TODO request for students based on courseId
-    this.students = [
-      {
-        name: 'name1',
-        surname: 'surname1',
-        email: 'email1'
-      },
-      {
-        name: 'name2',
-        surname: 'surname2',
-        email: 'email2'
-      },
-      {
-        name: 'name3',
-        surname: 'surname3',
-        email: 'email3'
-      }
-    ]
+    this.subscriptions.push(this.coursesService.getStudentsForCourse(this.courseId).subscribe((data: User[]) => {
+      this.students = data;
+    }));
     
   }
 

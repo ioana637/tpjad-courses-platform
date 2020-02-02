@@ -39,7 +39,7 @@ border-radius: 5px;">
 
         <div class="row">
             <button *ngIf="viewMode" class="btn btn-warning col-4 offset-7" (click)="viewCourse()"><i class="fa fa-eye mr-1"></i>View</button>
-            <button *ngIf="!viewMode" class="btn btn-warning col-4 offset-7" (click)="enrollInCourse()"><i class="fa fa-sign-in mr-1"></i>Enroll</button>
+            <button *ngIf="!viewMode" class="btn btn-warning col-4 offset-7" (click)="enrollInCourse()" [disabled]="enrolled"><i class="fa fa-sign-in mr-1"></i>Enroll</button>
         </div>
     </div>
 </div>

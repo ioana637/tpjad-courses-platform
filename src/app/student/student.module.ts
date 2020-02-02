@@ -11,6 +11,7 @@ import { ViewCourseComponent } from './view-course/view-course.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserInterceptor } from '../services/user.interceptor';
+import { ToastModule } from 'primeng/toast';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { UserInterceptor } from '../services/user.interceptor';
     SidebarModule,
     ButtonModule,
     CommonsModule,
-    PdfViewerModule
+    PdfViewerModule,
+    ToastModule
   ],
 })
 export class StudentModule { }

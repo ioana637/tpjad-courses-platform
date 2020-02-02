@@ -1,50 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Course, Lecture } from 'src/app/utils/structures';
+import { ToastService } from 'src/app/services/toast.service';
+import { CoursesService } from 'src/app/services/courses.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-edit-course',
   templateUrl: './add-edit-course.component.html',
   styleUrls: ['./add-edit-course.component.scss']
 })
-export class AddEditCourseComponent implements OnInit {
+export class AddEditCourseComponent implements OnInit, OnDestroy {
 
   idCourse: number;
   course: Course;
   mode: string;
   display = false;
+  subscriptions: Subscription[] = []
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,
+    private toastService: ToastService,
+    private coursesService: CoursesService) { }
 
   ngOnInit() {
     this.idCourse = parseInt(this.route.snapshot.paramMap.get("id"));
     if (this.idCourse) {
-      console.log('editMode', this.idCourse);
       this.mode = 'edit';
-      this.course = {
-        description: 'Description',
-        id: 37,
-        lectures: [
-          {
-            courseId: 37,
-            date: new Date(),
-            filename: 'l1.pdf',
-            id: 15,
-            title: 'Lecture 1'
-          },
-          {
-            courseId: 37,
-            date: new Date(),
-            filename: 'l2.pdf',
-            id: 16,
-            title: 'Lecture 2'
-          },
-        ],
-        maxStudents: 100,
-        studentsSignedIn: 37,
-        title: 'Title',
-        year: '2020'
-      }
+      this.subscriptions.push(this.coursesService.getCourseById(this.idCourse).subscribe(
+        (res: Course) => {
+          this.course = res;
+        }
+      ))
+     
     }
     else {
       console.log('add Mode');
@@ -66,6 +53,10 @@ export class AddEditCourseComponent implements OnInit {
 
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(s => s.unsubscribe());
   }
 
   onFileChanged(file, lecture) {

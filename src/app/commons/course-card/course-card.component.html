@@ -33,4 +33,6 @@ border-radius: 5px;">
     </div>
 </div>
 
-<app-share-news [(display)]="display" (displayChange)="emailsWereSent()"></app-share-news>
+<app-share-news [courseId]="course.id" [(display)]="display" (displayChange)="emailsWereSent()"
+(messageEmitter)="showMessage($event)"
+></app-share-news>

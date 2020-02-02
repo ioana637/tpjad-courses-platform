@@ -1,49 +1,64 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Course } from 'src/app/utils/structures';
+import { ToastService } from 'src/app/services/toast.service';
+import { CoursesService } from 'src/app/services/courses.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss']
 })
-export class CoursesComponent implements OnInit {
-  course: Course;
-  constructor() {
-    this.course = {
-      description: 'Description',
-      id: 37,
-      lectures: [
-        {
-          courseId: 37,
-          date: new Date(),
-          filename: 'l1.pdf',
-          id: 15,
-          title: 'Lecture 1'
-        },
-        {
-          courseId: 37,
-          date: new Date(),
-          filename: 'l2.pdf',
-          id: 16,
-          title: 'Lecture 2'
-        },
-      ],
-      maxStudents: 100,
-      studentsSignedIn: 37,
-      title: 'Title',
-      year: '2020',
-      users: [
-        {
-          role: 'PROFESSOR',
-          name: 'Andres',
-          surname: 'Pop',
-          email: 'a@cs.ubbcluj.ro'
-        }
-      ]
-    }
+export class CoursesComponent implements OnInit, OnDestroy {
+  courses: Course[];
+  subscription: Subscription[]=[];
+  constructor(private toastService: ToastService,
+    private coursesService: CoursesService) {
   }
 
   ngOnInit() {
+    this.subscription.push(
+    this.coursesService.getMyCourses().subscribe((data: Course[]) => {
+      this.courses = data;
+      this.courses.forEach((course) => {
+        this.subscription.push(this.coursesService.getNumberStudentsForCourse(course.id).subscribe(
+          (res: {studentsNumber: number}) => {
+            const id = this.courses.findIndex((c) => c.id === course.id);
+            this.courses[id].studentsSignedIn = res.studentsNumber;
+          }
+        ))
+      });
+
+    }));
+  }
+
+  ngOnDestroy(){
+    this.subscription.forEach(s => s.unsubscribe());
+  }
+
+  messageReceived(msg) {
+    switch(msg.type) { 
+      case 'error': { 
+        this.toastService.addError(msg.message);
+         break; 
+      } 
+      case 'info': { 
+        this.toastService.addInfo(msg.message);
+         break; 
+      }  
+      case 'success': { 
+        this.toastService.addSuccess(msg.message);
+         break; 
+      } 
+      case 'warning': { 
+        this.toastService.addWarning(msg.message);
+         break; 
+      } 
+      default: { 
+        this.toastService.addInfo(msg.message);
+        break; 
+      } 
+   }
   }
 
 }

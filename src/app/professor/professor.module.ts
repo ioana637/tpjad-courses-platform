@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { CommonsModule } from '../commons/commons.module';
 import { UserInterceptor } from '../services/user.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ToastModule } from 'primeng/toast';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     ProfessorRoutingModule,
     SidebarModule,
     ButtonModule,
-    CommonsModule
+    CommonsModule,
+    ToastModule
   ],
 })
 export class ProfessorModule { }
