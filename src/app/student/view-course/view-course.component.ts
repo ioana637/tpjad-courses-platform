@@ -1,14 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Course } from 'src/app/utils/structures';
 
 @Component({
-  selector: 'app-courses',
-  templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.scss']
+  selector: 'app-view-course',
+  templateUrl: './view-course.component.html',
+  styleUrls: ['./view-course.component.scss']
 })
-export class CoursesComponent implements OnInit {
+export class ViewCourseComponent implements OnInit {
+
+  courseId: number;
   course: Course;
-  constructor() {
+  constructor(private route: ActivatedRoute) { }
+
+  ngOnInit() {
+    this.courseId = parseInt(this.route.snapshot.paramMap.get("id"));
+    console.log(this.courseId);
     this.course = {
       description: 'Description',
       id: 37,
@@ -34,16 +41,16 @@ export class CoursesComponent implements OnInit {
       year: '2020',
       users: [
         {
-          role: 'PROFESSOR',
-          name: 'Andres',
-          surname: 'Pop',
-          email: 'a@cs.ubbcluj.ro'
+          name: 'Ana',
+          surname: 'Maria',
+          email: 'ana@cs.ubbcluj.ro',
+          role: 'PROFESSOR'
         }
       ]
     }
+    this.course.professor = this.course.users.filter((user) => user.role === 'PROFESSOR')[0];
   }
 
-  ngOnInit() {
-  }
+
 
 }

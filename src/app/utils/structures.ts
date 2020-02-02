@@ -25,6 +25,7 @@ export interface Course {
   title?: string;
   year?: string;
   users?: User[];
+  professor? :User;
 }
 
 export interface Lecture {

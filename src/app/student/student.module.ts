@@ -7,11 +7,12 @@ import { ButtonModule } from 'primeng/button';
 import { CommonsModule } from '../commons/commons.module';
 import { MyCoursesStudentComponent } from './my-courses-student/my-courses-student.component';
 import { AllCoursesStudentComponent } from './all-courses-student/all-courses-student.component';
+import { ViewCourseComponent } from './view-course/view-course.component';
 
 
 
 @NgModule({
-  declarations: [HomeStudentComponent, MyCoursesStudentComponent, AllCoursesStudentComponent],
+  declarations: [HomeStudentComponent, MyCoursesStudentComponent, AllCoursesStudentComponent, ViewCourseComponent],
   imports: [
     CommonModule,
     StudentRoutingModule,

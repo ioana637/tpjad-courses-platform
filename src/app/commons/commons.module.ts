@@ -11,6 +11,7 @@ import { CourseCardComponent } from './course-card/course-card.component';
 import { ShareNewsComponent } from './share-news/share-news.component';
 import { AddEditCourseComponent } from './add-edit-course/add-edit-course.component';
 import { StudentsDialogComponent } from './students-dialog/students-dialog.component';
+import { CourseCardStudentComponent } from './course-card-student/course-card-student.component';
 
 
 
@@ -20,7 +21,7 @@ import { StudentsDialogComponent } from './students-dialog/students-dialog.compo
     AccountSettingsComponent, 
     CourseCardComponent, 
     ShareNewsComponent, 
-    AddEditCourseComponent, StudentsDialogComponent
+    AddEditCourseComponent, StudentsDialogComponent, CourseCardStudentComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +37,8 @@ import { StudentsDialogComponent } from './students-dialog/students-dialog.compo
     CourseCardComponent,
     ShareNewsComponent,
     AddEditCourseComponent,
-    StudentsDialogComponent
+    StudentsDialogComponent,
+    CourseCardStudentComponent
   ]
 })
 export class CommonsModule { }
