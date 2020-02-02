@@ -7,50 +7,69 @@
         </div>
 
         <div class="row">
-            <div class="col-11 offset-1">
-                {{course.description}}
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-11 offset-1">
-                <i class="fa fa-calendar mr-1"></i>{{course.year}}
-            </div>
-        </div>
-
-        <div class="row" *ngIf="course.professor">
-            <div class="col-11 offset-1">
-                {{course.professor.name}} {{course.professor.surname}} <i class="fa fa-envelope mr-1"></i>
-                {{course.professor.email}}
-            </div>
-        </div>
-
-        <div class="row mt-3 mb-3">
-            <div class="col-11 offset-1">
-                <h4>Lectures</h4>
-            </div>
-        </div>
-
-        <div class="row mt-3 mb-3" *ngIf="!course.lectures || course.lectures.length === 0">
-            <div class="col-11 offset-1">
-                <h6>There aren't any available lectures! </h6>
-            </div>
-        </div>
-
-        <div *ngIf="course.lectures && course.lectures.length > 0">
-            <div *ngFor="let lecture of course.lectures">
-                <div class="row m-2">
-                    <div class="col-6 offset-1 d-flex justify-content-between align-items-center" style="height: 50px; border: 2px solid red; border-radius: 5px;">
-                        <div class="row">
-                            <div class="col-5">{{lecture.title}}</div>
-                            <div class="col-5">{{lecture.filename}}</div>
-                            <div class="col-2">
-                                <button type="button" class="btn btn-primary" (click)="downloadFile(lecture)">
-                                    <i class="fa fa-download"></i></button></div>
+            <div class="col-4 offset-1 container-details">
+                <div class="row">
+                    <div class="col-12">
+                        {{course.description}}
+                    </div>
+                </div>
+        
+                <div class="row">
+                    <div class="col-12">
+                        <i class="fa fa-calendar mr-1"></i>{{course.year}}
+                    </div>
+                </div>
+        
+                <div class="row" *ngIf="course.professor">
+                    <div class="col-12">
+                        {{course.professor.name}} {{course.professor.surname}} <i class="fa fa-envelope mr-1"></i>
+                        {{course.professor.email}}
+                    </div>
+                </div>
+        
+                <div class="row mt-3 mb-3">
+                    <div class="col-12">
+                        <h4>Lectures</h4>
+                    </div>
+                </div>
+        
+                <div class="row mt-3 mb-3" *ngIf="!course.lectures || course.lectures.length === 0">
+                    <div class="col-12">
+                        <h6>There aren't any available lectures! </h6>
+                    </div>
+                </div>
+        
+                <div *ngIf="course.lectures && course.lectures.length > 0">
+                    <div *ngFor="let lecture of course.lectures">
+                        <div class="row m-2">
+                            <div class="col-12 d-flex justify-content-center align-items-center" style="height: 50px; border: 2px solid #007bff; border-radius: 5px;">
+                                <div class="row">
+                                    <div class="col-5">{{lecture.title}}</div>
+                                    
+                                    <div class="col-5">
+                                        <button type="button" class="btn btn-link" (click)="displayPDF(lecture)"><i class="fa fa-file-pdf-o mr-1"></i>
+                                            {{lecture.filename}}</button>
+                                       </div>
+                                    <div class="col-2">
+                                        <button type="button" class="btn btn-primary" (click)="downloadFile(lecture)">
+                                            <i class="fa fa-download"></i></button></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <p-sidebar [visible]="true" position="right" [style]="{width:'45%', 'overflow': 'scroll'}" [showCloseIcon]="false"
+            [dismissible]="false" [modal]="false">
+                <div class="col-12 container-pdf" *ngIf="pdfSrc" >
+                    <pdf-viewer [src]="pdfSrc" [render-text]="true" [stick-to-page]="true" [fit-to-page]="true"
+                    [show-all]="true"
+                  style="display: block;"></pdf-viewer>
+                </div>
+            </p-sidebar>
+            
         </div>
+
+        
     </div>
 </div>

@@ -8,7 +8,7 @@ import { CommonsModule } from '../commons/commons.module';
 import { MyCoursesStudentComponent } from './my-courses-student/my-courses-student.component';
 import { AllCoursesStudentComponent } from './all-courses-student/all-courses-student.component';
 import { ViewCourseComponent } from './view-course/view-course.component';
-
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 
 @NgModule({
@@ -18,7 +18,8 @@ import { ViewCourseComponent } from './view-course/view-course.component';
     StudentRoutingModule,
     SidebarModule,
     ButtonModule,
-    CommonsModule
+    CommonsModule,
+    PdfViewerModule
   ]
 })
 export class StudentModule { }

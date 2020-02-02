@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Course } from 'src/app/utils/structures';
+import { Course, Lecture } from 'src/app/utils/structures';
 
 @Component({
   selector: 'app-view-course',
@@ -11,6 +11,7 @@ export class ViewCourseComponent implements OnInit {
 
   courseId: number;
   course: Course;
+  pdfSrc: string;
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -51,6 +52,13 @@ export class ViewCourseComponent implements OnInit {
     this.course.professor = this.course.users.filter((user) => user.role === 'PROFESSOR')[0];
   }
 
+  downloadFile(lecture: Lecture){
+
+  }
+
+  displayPDF(lecture: Lecture) {
+    this.pdfSrc = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+  }
 
 
 }
