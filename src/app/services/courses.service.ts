@@ -12,8 +12,8 @@ export class CoursesService {
   constructor(private http: HttpClient) {
     this.httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': '*/*',
-      'Access-Control-Allow-Origin': '*'
+      // 'Accept': '*/*',
+      // 'Access-Control-Allow-Origin': '*'
     });
   }
 

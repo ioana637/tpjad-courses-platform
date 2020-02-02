@@ -13,7 +13,7 @@ export class StudentGuardService implements CanActivate {
 
   canActivate(): boolean {
     if (!this.userService.isAuthenticatedStudent()) {
-      this.router.navigate(['home/student']);
+      this.router.navigate(['/login']);
       return false;
     }
     return true;

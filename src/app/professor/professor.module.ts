@@ -7,6 +7,8 @@ import { HomeProfessorComponent } from './home-professor/home-professor.componen
 import { ProfessorRoutingModule } from './professor-routing.module';
 import { ButtonModule } from 'primeng/button';
 import { CommonsModule } from '../commons/commons.module';
+import { UserInterceptor } from '../services/user.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
 @NgModule({
@@ -17,6 +19,6 @@ import { CommonsModule } from '../commons/commons.module';
     SidebarModule,
     ButtonModule,
     CommonsModule
-  ]
+  ],
 })
 export class ProfessorModule { }

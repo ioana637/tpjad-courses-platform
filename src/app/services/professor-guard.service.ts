@@ -13,6 +13,7 @@ export class ProfessorGuardService implements CanActivate {
 
   canActivate(): boolean {
     if (!this.userService.isAuthenticatedProfessor()) {
+      console.log('login');
       this.router.navigate(['/login']);
       return false;
     }

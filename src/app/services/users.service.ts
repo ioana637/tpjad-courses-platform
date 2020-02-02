@@ -12,49 +12,66 @@ export class UsersService {
   httpHeaders: HttpHeaders;
 
   constructor(private http: HttpClient) {
-    const sessionId = this.getSessionId();
     this.httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': '*/*',
-      'Access-Control-Allow-Origin': '*',
-      // 'sessionId': sessionId
+      // 'Accept': '*/*',
+      // 'Access-Control-Allow-Origin': '*',
     });
   }
 
   login(user: User) {
-    return this.http.post(userLogin, JSON.stringify(user), {headers: this.httpHeaders})
-      .pipe(map((response: {session_id: string, user: User}) => {
+    this.httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Basic ${btoa(`${user.email}:${user.password}`)}`
+    });
+    return this.http.post(userLogin, null, { headers: this.httpHeaders })
+      .pipe(map((response: User) => {
         this.setCurrentUserInLocalStorage(response);
-        return response.user;
+        return response;
       }));
   }
 
-  register(user:User) {
-    return this.http.post(userRegister, JSON.stringify(user), {headers: this.httpHeaders});
+  register(user: User) {
+    this.httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http.post(userRegister, JSON.stringify(user), { headers: this.httpHeaders });
   }
 
-  private setCurrentUserInLocalStorage(obj: {session_id: string, user: User}) {
+  private setCurrentUserInLocalStorage(obj: User) {
     localStorage.setItem('currentUser', JSON.stringify(obj));
   }
 
   logout() {
+    return this.http.get(userLogout, { headers: this.httpHeaders }).pipe(
+      map((resp) => {
+        this.removeUserFromLocalStorage();
+        return resp;
+      })
+    );
+  }
+
+  removeUserFromLocalStorage() {
     localStorage.removeItem('currentUser');
-    return this.http.get(userLogout, {headers: this.httpHeaders});
-    // TODO: logout de la server
   }
 
 
   getCurrentUser(): User {
     const obj = JSON.parse(localStorage.getItem('currentUser'));
     if (obj) {
-      return obj.user;
+      return obj;
     }
     return undefined;
   }
 
   setAccountSettings(user: User) {
+    this.httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
     const parameters = new HttpParams();
     parameters.append('name', user.name);
+    parameters.append('email', user.email);
     parameters.append('surname', user.surname);
     parameters.append('password', user.password);
     parameters.append('newPassword', user.newPassword);
@@ -62,28 +79,20 @@ export class UsersService {
     const formData = new FormData();
     formData.append('file', user.picture);
 
-    // this.httpHeaders = new HttpHeaders({
-    //   'Content-Type': 'application/json',
-    //   'Accept': '*/*',
-    //   'Access-Control-Allow-Origin': '*',
-    //   'sessionId': this.getSessionId()
-    // });
+    const url = this.compondUrlForSaveAccountSettings(user, userSaveAccountSettings);
 
-    this.httpHeaders.set('sessionId', this.getSessionId());
-    // this.httpHeaders.append('session-id', this.getSessionId());
-
-    console.log(this.getSessionId());
-    console.log(this.httpHeaders);
-
-    return this.http.put(userSaveAccountSettings, formData, {headers: this.httpHeaders, params: parameters});
+    return this.http.put(url, formData, { headers: this.httpHeaders });
   }
-
-  getSessionId(): string | string[] {
-    const obj = JSON.parse(localStorage.getItem('currentUser'));
-    if (obj) {
-      return obj.session_id;
+  compondUrlForSaveAccountSettings(user: User, userSaveAccountSettings: string) {
+    let result = userSaveAccountSettings;
+    result = `${result}?email=${user.email}&name=${user.name}&surname=${user.surname}&password=${user.password}`;
+    if (user.newPassword && user.newPassword!=='') {
+      result = `${result}&newPassword=${user.newPassword}`;
     }
-    return '';
+    if (user.rewritePassword && user.rewritePassword!=='') {
+      result = `${result}&rewrittenPassword=${user.rewritePassword}`;
+    }
+    return result;
   }
 
   isAuthenticated(): boolean {

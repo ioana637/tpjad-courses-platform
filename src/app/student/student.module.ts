@@ -9,6 +9,8 @@ import { MyCoursesStudentComponent } from './my-courses-student/my-courses-stude
 import { AllCoursesStudentComponent } from './all-courses-student/all-courses-student.component';
 import { ViewCourseComponent } from './view-course/view-course.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { UserInterceptor } from '../services/user.interceptor';
 
 
 @NgModule({
@@ -20,6 +22,6 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     ButtonModule,
     CommonsModule,
     PdfViewerModule
-  ]
+  ],
 })
 export class StudentModule { }
