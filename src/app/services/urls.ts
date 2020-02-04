@@ -4,7 +4,8 @@ export const userManagementUrl = `${baseUrl}/users-management`;
 export const userLogin = `${userManagementUrl}/login`;
 export const userLogout = `${userManagementUrl}/logout`;
 export const userRegister = `${userManagementUrl}/register`;
-export const userSaveAccountSettings = `${userManagementUrl}/save-account-settings`;
+export const userSaveAccountSettings = `${userManagementUrl}/account-settings`;
+export const userSaveAccountSettingsWithoutImage = `${userManagementUrl}/save-account-settings/`;
 
 export const coursesManagementUrl = `${baseUrl}/courses-management/courses`;
 export const coursesGetAll = `${coursesManagementUrl}`;

@@ -9,3 +9,10 @@ export function string2Bin(str) {
 export function bin2String(array) {
     return String.fromCharCode.apply(String, array);
 }
+
+export function isNotNullUndefinedEmpty(text: string): boolean {
+    if (text !== null && text !== undefined && text.length !== 0) {
+        return true;
+    }
+    return false;
+}

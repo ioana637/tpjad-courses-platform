@@ -20,12 +20,13 @@ export class AllCoursesStudentComponent implements OnInit, OnDestroy {
       this.courses = data;
       this.courses.forEach((course) => {
         this.subscriptions.push(this.coursesService.getNumberStudentsForCourse(course.id).subscribe(
-          (res) => {
-            // TODO 
-            console.log(res);
+          (res: {studentsNumber: number}) => {
+            const id = this.courses.findIndex((c) => c.id === course.id);
+            this.courses[id].studentsSignedIn = res.studentsNumber;
           }
         ))
       });
+      console.log(this.courses);
     }));
   }
 

@@ -34,7 +34,7 @@ export class CoursesService {
   }
 
   getMyCourses() {
-    return this.http.get(coursesMy, {headers: this.httpHeaders});
+    return this.http.get(coursesMy, {headers: this.httpHeaders, withCredentials: true});
   }  
 
   getCourseById(courseId: number) {

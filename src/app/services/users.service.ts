@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 
 import { Role, User } from '../utils/structures';
-import { userLogin, userRegister, userSaveAccountSettings, userLogout } from './urls';
+import { userLogin, userRegister, userSaveAccountSettings, userLogout, userSaveAccountSettingsWithoutImage } from './urls';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +38,7 @@ export class UsersService {
     return this.http.post(userRegister, JSON.stringify(user), { headers: this.httpHeaders });
   }
 
-  private setCurrentUserInLocalStorage(obj: User) {
+  public setCurrentUserInLocalStorage(obj: User) {
     localStorage.setItem('currentUser', JSON.stringify(obj));
   }
 
@@ -64,6 +64,17 @@ export class UsersService {
     return undefined;
   }
 
+  saveAccountSettingsWithoutImage(user: User) {
+    const obj = JSON.parse(JSON.stringify(user));
+    delete obj.picture;
+    delete obj.id;
+    delete obj.role;
+    this.httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http.put(userSaveAccountSettingsWithoutImage, JSON.stringify(obj), { headers: this.httpHeaders });
+  }
+
   setAccountSettings(user: User) {
     this.httpHeaders = new HttpHeaders({
       'Content-Type': 'multipart/form-data; boundary=---------------------------293582696224464',
@@ -77,7 +88,7 @@ export class UsersService {
     // parameters.append('password', user.password);
     // parameters.append('newPassword', user.newPassword);
     // parameters.append('rewrittenPassword', user.rewritePassword);
-    
+
     const formData = new FormData();
     formData.append('file', user.picture);
 
@@ -88,10 +99,10 @@ export class UsersService {
   compondUrlForSaveAccountSettings(user: User, userSaveAccountSettings: string) {
     let result = `${userSaveAccountSettings}`;
     result = `${result}?email=${encodeURIComponent(user.email)}&name=${encodeURIComponent(user.name)}&surname=${encodeURIComponent(user.surname)}&password=${encodeURIComponent(user.password)}`;
-    if (user.newPassword && user.newPassword!=='') {
+    if (user.newPassword && user.newPassword !== '') {
       result = `${result}&newPassword=${encodeURIComponent(user.newPassword)}`;
     }
-    if (user.rewritePassword && user.rewritePassword!=='') {
+    if (user.rewritePassword && user.rewritePassword !== '') {
       result = `${result}&rewrittenPassword=${encodeURIComponent(user.rewritePassword)}`;
     }
     return result;

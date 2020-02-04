@@ -3,7 +3,7 @@ import { UsersService } from 'src/app/services/users.service';
 import { User } from 'src/app/utils/structures';
 import { FormGroup } from '@angular/forms';
 import { ToastService } from 'src/app/services/toast.service';
-import { string2Bin } from 'src/app/utils/functions-utils';
+import { string2Bin, isNotNullUndefinedEmpty } from 'src/app/utils/functions-utils';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -18,7 +18,7 @@ export class AccountSettingsComponent implements OnInit {
   form: FormGroup;
   imageType = 'data:image/PNG;base64,';
 
-  constructor(private userService: UsersService, 
+  constructor(private userService: UsersService,
     private toastService: ToastService,
     private sanitizer: DomSanitizer) { }
 
@@ -56,8 +56,23 @@ export class AccountSettingsComponent implements OnInit {
   }
 
   saveSettings() {
-    console.log(this.currentUser);
-    this.userService.setAccountSettings(this.currentUser).subscribe((res) => {
+    // this.userService.setAccountSettings(this.currentUser).subscribe((res) => {
+    //   this.toastService.addSuccess('Changes successfully saved!');
+    // }, (err) => {
+    //   console.log(err);
+    //   this.toastService.addError(err.error.message);
+    // })
+
+
+    this.userService.saveAccountSettingsWithoutImage(this.currentUser).subscribe((res) => {
+      if (isNotNullUndefinedEmpty(this.currentUser.newPassword) &&
+        isNotNullUndefinedEmpty(this.currentUser.rewritePassword)
+        && this.currentUser.newPassword === this.currentUser.rewritePassword) {
+        this.currentUser.password = this.currentUser.newPassword;
+        delete this.currentUser.newPassword;
+        delete this.currentUser.rewritePassword;
+      }
+      this.userService.setCurrentUserInLocalStorage(this.currentUser);
       this.toastService.addSuccess('Changes successfully saved!');
     }, (err) => {
       console.log(err);
