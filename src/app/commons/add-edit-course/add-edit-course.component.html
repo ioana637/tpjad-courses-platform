@@ -45,8 +45,9 @@
                 <label>Maximum number of students</label>
             </div>
             <div class="col-7">
-                <input type="number" min="0" max="1000" class="col-7 form-control" name="maxStudents" [(ngModel)]="course.maxStudents"
-                    #maxStudents="ngModel" placeholder="Maximum number of students" required />
+                <input type="number" min="0" max="1000" class="col-7 form-control" name="maxStudents"
+                    [(ngModel)]="course.maxStudents" #maxStudents="ngModel" placeholder="Maximum number of students"
+                    required />
                 <div *ngIf="f.submitted && !maxStudents.valid" class="help-block">Field mustn't be empty
                 </div>
             </div>
@@ -54,7 +55,8 @@
 
         <div class="form-group row" *ngIf="mode === 'edit'">
             <div class="col-3 offset-1">
-                <button type="button" class="btn btn-link" (click)="seeEnrolledStudents()"><i class="fa fa-users mr-2"></i>
+                <button type="button" class="btn btn-link" (click)="seeEnrolledStudents()"><i
+                        class="fa fa-users mr-2"></i>
                     See enrolled students</button>
             </div>
         </div>
@@ -62,34 +64,43 @@
         <div class="row text-start">
             <h4 class="col-2 offset-1">Lectures</h4>
             <div class="col-1 offset-4 d-flex justify-content-end align-items-end p-0">
-                <button type="button" class="btn btn-danger" (click)="addNewLecture()"><i class="fa fa-plus"></i></button>
-            </div> 
+                <button type="button" class="btn btn-danger" (click)="addNewLecture()"><i
+                        class="fa fa-plus"></i></button>
+            </div>
         </div>
 
         <div class="row form-group mt-3" *ngFor="let lecture of course.lectures; let i = index">
-            <div class="col-3 offset-1 mt-3 d-flex justify-content-center">
-                <input type="file" name="attachment" accept="application/pdf" (change)="onFileChanged($event, lecture)" #fileInput>
+            <div class="col-3 offset-1 mt-3 d-flex justify-content-center align-items-center">
+                <input *ngIf="!lecture.filename" type="file" name="attachment" accept="application/pdf"
+                    (change)="onFileChanged($event, lecture)" #fileInput>
+                <button type="button" class="btn btn-link" *ngIf="lecture.filename"
+                    (click)="displayPdf(lecture)">{{lecture.filename}}</button>
             </div>
             <div class="col-3 d-flex justify-content-center">
                 <input type="text" class="form-control" [name]="i+1" [(ngModel)]="lecture.title"
-                     placeholder="Lecture title" required />
+                    placeholder="Lecture title" required />
                 <!-- <div *ngIf="f.submitted && lecture.title !== ''" class="help-block">Field mustn't be empty
                 </div> -->
             </div>
-            <div class="col-1 d-flex justify-content-end align-items-end p-0">
-                <button type="button" class="btn btn-primary" (click)="deleteLecture(lecture, i)"
-                ><i class="fa fa-trash"></i></button>
+            <div class="col-1 d-flex justify-content-end align-items-center p-0">
+                <button type="button" class="btn btn-primary" (click)="deleteLecture(lecture, i)"><i
+                        class="fa fa-trash"></i></button>
             </div>
         </div>
 
         <div class="row">
             <div class="ui-fluid col-2 offset-1">
                 <button type="submit" class="btn btn-warning" [disabled]="f.invalid">Save</button>
-            </div> 
+            </div>
         </div>
     </form>
 </div>
 
-<app-students-dialog *ngIf="mode === 'edit'" [(display)]="display" [courseId]="idCourse" (displayChange)="dialogClosed()"></app-students-dialog>
+<!-- <div *ngIf="mode==='edit' && pdfLocalUrl">
+    <object [attr.data]="pdfLocalUrl" type="application/pdf" width="100%" height="100%"></object>
+</div> -->
+
+<app-students-dialog *ngIf="mode === 'edit'" [(display)]="display" [courseId]="idCourse"
+    (displayChange)="dialogClosed()"></app-students-dialog>
 
 <p-toast></p-toast>

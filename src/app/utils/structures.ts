@@ -30,7 +30,7 @@ export interface Course {
 
 export interface Lecture {
   courseId?: number;
-  attachment?: File | string;
+  attachment?: File | string | ArrayBuffer;
   date?: Date;
   filename?: string;
   id?: number;

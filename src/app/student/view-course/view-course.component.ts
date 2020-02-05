@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Course, Lecture } from 'src/app/utils/structures';
+import { CoursesService } from 'src/app/services/courses.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-view-course',
@@ -11,53 +13,36 @@ export class ViewCourseComponent implements OnInit {
 
   courseId: number;
   course: Course;
-  pdfSrc: string;
-  constructor(private route: ActivatedRoute) { }
+  pdfSrc: any;
+  constructor(private route: ActivatedRoute,
+    private domSanitizer: DomSanitizer,
+    private courseService: CoursesService) { }
 
   ngOnInit() {
     this.courseId = parseInt(this.route.snapshot.paramMap.get("id"));
-    console.log(this.courseId);
-    this.course = {
-      description: 'Description',
-      id: 37,
-      lectures: [
-        {
-          courseId: 37,
-          date: new Date(),
-          filename: 'l1.pdf',
-          id: 15,
-          title: 'Lecture 1'
-        },
-        {
-          courseId: 37,
-          date: new Date(),
-          filename: 'l2.pdf',
-          id: 16,
-          title: 'Lecture 2'
-        },
-      ],
-      maxStudents: 100,
-      studentsSignedIn: 37,
-      title: 'Title',
-      year: '2020',
-      users: [
-        {
-          name: 'Ana',
-          surname: 'Maria',
-          email: 'ana@cs.ubbcluj.ro',
-          role: 'PROFESSOR'
-        }
-      ]
-    }
-    this.course.professor = this.course.users.filter((user) => user.role === 'PROFESSOR')[0];
+    this.courseService.getCourseById(this.courseId).subscribe((res) => {
+      this.course = res;
+      console.log(res);
+      this.course.professor = this.course.users.filter((user) => user.role === 'PROFESSOR')[0];
+    })
   }
 
-  downloadFile(lecture: Lecture){
-
+  downloadFile(lecture: Lecture) {
+    console.log('downloadFile');
+    this.displayPDF(lecture);
+    let link = document.createElement("a");
+    link.download = lecture.filename;
+    link.href = this.pdfSrc;
+    link.click();
   }
 
   displayPDF(lecture: Lecture) {
-    this.pdfSrc = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+    let file = new File([lecture.attachment], lecture.filename, { type: 'application/pdf' });
+    // this.pdfSrc = lecture.attachment;
+    this.pdfSrc = URL.createObjectURL(file);
+    this.pdfSrc = this.domSanitizer.bypassSecurityTrustResourceUrl(this.pdfSrc);
+    // this.pdfSrc = this.pdfSrc.changingThisBreaksApplicationSecurity;
+    console.log(this.pdfSrc);
   }
 
 

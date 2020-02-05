@@ -42,15 +42,15 @@
                 <div *ngIf="course.lectures && course.lectures.length > 0">
                     <div *ngFor="let lecture of course.lectures">
                         <div class="row m-2">
-                            <div class="col-12 d-flex justify-content-center align-items-center" style="height: 50px; border: 2px solid #007bff; border-radius: 5px;">
-                                <div class="row">
-                                    <div class="col-5">{{lecture.title}}</div>
+                            <div class="col-12 d-flex justify-content-center align-items-center" style="height: auto; border: 2px solid #007bff; border-radius: 5px;">
+                                <div class="row m-2">
+                                    <div class="col-4 d-flex justify-content-center align-items-center">{{lecture.title}}</div>
                                     
-                                    <div class="col-5">
+                                    <div class="col-6">
                                         <button type="button" class="btn btn-link" (click)="displayPDF(lecture)"><i class="fa fa-file-pdf-o mr-1"></i>
                                             {{lecture.filename}}</button>
                                        </div>
-                                    <div class="col-2">
+                                    <div class="col-2 d-flex justify-content-center align-items-center">
                                         <button type="button" class="btn btn-primary" (click)="downloadFile(lecture)">
                                             <i class="fa fa-download"></i></button></div>
                                 </div>
@@ -61,11 +61,12 @@
             </div>
             <p-sidebar [visible]="true" position="right" [style]="{width:'45%', 'overflow': 'scroll'}" [showCloseIcon]="false"
             [dismissible]="false" [modal]="false">
-                <div class="col-12 container-pdf" *ngIf="pdfSrc" >
+                <!-- <div class="col-12 container-pdf" *ngIf="pdfSrc" >
                     <pdf-viewer [src]="pdfSrc" [render-text]="true" [stick-to-page]="true" [fit-to-page]="true"
                     [show-all]="true"
                   style="display: block;"></pdf-viewer>
-                </div>
+                </div> -->
+                <embed [src]="pdfSrc" type="application/pdf"   height="100%" width="100%">
             </p-sidebar>
             
         </div>

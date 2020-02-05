@@ -16,7 +16,7 @@ export class MyCoursesStudentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscriptions.push(this.coursesService.fetchAllCourses().subscribe((data: Course[]) => {
+    this.subscriptions.push(this.coursesService.getMyCourses().subscribe((data: Course[]) => {
       this.courses = data;
       this.courses.forEach((course) => {
         this.subscriptions.push(this.coursesService.getNumberStudentsForCourse(course.id).subscribe(

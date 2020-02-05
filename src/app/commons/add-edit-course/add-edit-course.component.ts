@@ -4,6 +4,7 @@ import { Course, Lecture } from 'src/app/utils/structures';
 import { ToastService } from 'src/app/services/toast.service';
 import { CoursesService } from 'src/app/services/courses.service';
 import { Subscription } from 'rxjs';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-add-edit-course',
@@ -17,9 +18,11 @@ export class AddEditCourseComponent implements OnInit, OnDestroy {
   mode: string;
   display = false;
   subscriptions: Subscription[] = []
+  pdfLocalUrl: any;
 
   constructor(private route: ActivatedRoute,
     private toastService: ToastService,
+    private domSanitizer: DomSanitizer,
     private coursesService: CoursesService) { }
 
   ngOnInit() {
@@ -29,9 +32,10 @@ export class AddEditCourseComponent implements OnInit, OnDestroy {
       this.subscriptions.push(this.coursesService.getCourseById(this.idCourse).subscribe(
         (res: Course) => {
           this.course = res;
+          console.log(res);
         }
       ))
-     
+
     }
     else {
       console.log('add Mode');
@@ -64,6 +68,13 @@ export class AddEditCourseComponent implements OnInit, OnDestroy {
     lecture.attachment = <File>file.target.files[0];
   }
 
+  displayPdf(lecture: Lecture) {
+    const file3 = new Blob([lecture.attachment], { type: 'application/pdf' });
+    this.pdfLocalUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(file3));
+    this.pdfLocalUrl = this.pdfLocalUrl.changingThisBreaksApplicationSecurity;
+    console.log(this.pdfLocalUrl);
+  }
+
   addNewLecture() {
     this.course.lectures.push({
       date: new Date(),
@@ -75,18 +86,29 @@ export class AddEditCourseComponent implements OnInit, OnDestroy {
 
   saveCourse() {
     console.log('save course');
-    console.log(this.course);
+    this.course.lectures = this.course.lectures.map((lecture: Lecture) => {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        lecture.attachment = reader.result;
+      }
+
+      reader.readAsArrayBuffer(<Blob>lecture.attachment);
+      return lecture;
+    })
+    this.coursesService.saveCourse(this.course).subscribe((res) => {
+      console.log(res);
+    });
   }
 
-  deleteLecture(lecture: Lecture, index: number){
-    this.course.lectures.splice(index,1);
+  deleteLecture(lecture: Lecture, index: number) {
+    this.course.lectures.splice(index, 1);
   }
 
-  seeEnrolledStudents(){
+  seeEnrolledStudents() {
     this.display = true;
   }
 
-  dialogClosed(){
+  dialogClosed() {
     // this.display = false;
   }
 
