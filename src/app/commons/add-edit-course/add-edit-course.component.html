@@ -71,19 +71,19 @@
 
         <div class="row form-group mt-3" *ngFor="let lecture of course.lectures; let i = index">
             <div class="col-3 offset-1 mt-3 d-flex justify-content-center align-items-center">
-                <input *ngIf="!lecture.filename" type="file" name="attachment" accept="application/pdf"
+                <input *ngIf="!course.lectures[i].filename" type="file" name="attachment" accept="application/pdf"
                     (change)="onFileChanged($event, lecture)" #fileInput>
-                <button type="button" class="btn btn-link" *ngIf="lecture.filename"
-                    (click)="displayPdf(lecture)">{{lecture.filename}}</button>
+                <button type="button" class="btn btn-link" *ngIf="course.lectures[i].filename"
+                    (click)="displayPdf(lecture)">{{course.lectures[i].filename}}</button>
             </div>
             <div class="col-3 d-flex justify-content-center">
-                <input type="text" class="form-control" [name]="i+1" [(ngModel)]="lecture.title"
+                <input type="text" class="form-control" [name]="i+1" [(ngModel)]="course.lectures[i].title"
                     placeholder="Lecture title" required />
                 <!-- <div *ngIf="f.submitted && lecture.title !== ''" class="help-block">Field mustn't be empty
                 </div> -->
             </div>
             <div class="col-1 d-flex justify-content-end align-items-center p-0">
-                <button type="button" class="btn btn-primary" (click)="deleteLecture(lecture, i)"><i
+                <button type="button" class="btn btn-primary" (click)="deleteLecture(lecture)"><i
                         class="fa fa-trash"></i></button>
             </div>
         </div>

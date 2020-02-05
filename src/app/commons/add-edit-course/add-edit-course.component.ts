@@ -87,29 +87,30 @@ export class AddEditCourseComponent implements OnInit, OnDestroy {
 
   saveCourse() {
     console.log('save course');
+    let lecturesToBeAdded = 0;
     this.course.lectures.forEach((lecture: Lecture) => {
       if (typeof lecture.attachment !== 'string') {
+        lecturesToBeAdded = lecturesToBeAdded + 1;
         var reader = new FileReader();
-        reader.onload =  ()=> {
-           const arrayBuffer: any = reader.result;
-           lecture.attachment = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+        reader.onload = () => {
+          const arrayBuffer: any = reader.result;
+          lecture.attachment = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
         }
         reader.readAsArrayBuffer(<Blob>lecture.attachment);
       }
     })
-    setTimeout(()=>{
+    setTimeout(() => {
       console.log(JSON.stringify(this.course));
       this.coursesService.saveCourse(this.course).subscribe((res) => {
         console.log(res);
       });
-
-    }, 100);
+    }, 100 * lecturesToBeAdded);
   }
 
-  deleteLecture(lecture: Lecture, index: number) {
-    // const index = 
+  deleteLecture(lecture: Lecture) {
+    const i = this.course.lectures.findIndex((l) => lecture.title === l.title);
     // TODO
-    this.course.lectures.splice(index, 1);
+    this.course.lectures.splice(i, 1);
   }
 
   seeEnrolledStudents() {
