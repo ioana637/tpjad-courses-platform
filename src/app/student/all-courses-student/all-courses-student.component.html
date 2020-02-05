@@ -13,6 +13,9 @@
         <button class="btn btn-primary" (click)="reset()">Reset</button>
     </div>
 </div>
-<div *ngFor="let course of courses" class="" style="float: left;">
-    <app-course-card-student [course]=course [viewMode]="false" (enrolledDone)="fetchCourses($event)"></app-course-card-student>
+<div class="d-flex" *ngIf="courses && courses.length > 0" style="flex-wrap: wrap;">
+    <div *ngFor="let course of courses" class="">
+        <app-course-card-student [course]=course [viewMode]="false" (enrolledDone)="fetchCourses($event)"></app-course-card-student>
+    </div>
+    
 </div>

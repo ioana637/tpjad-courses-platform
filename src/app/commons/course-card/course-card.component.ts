@@ -41,6 +41,8 @@ export class CourseCardComponent implements OnInit, OnDestroy {
   showMessage(message) {
     if (message === 'ok') {
       this.messageToShow.emit({ type: 'success', message: 'Emails sent successfully' });
+    } else if (message = 'delete') {
+      this.messageToShow.emit({ type: 'success', message: 'Course deleted successfully' });
     } else {
       this.messageToShow.emit({ message, type: 'error' });
     }
@@ -48,7 +50,7 @@ export class CourseCardComponent implements OnInit, OnDestroy {
 
   deleteCourse() {
     this.subscriptions.push(this.courseService.deleteCourseById(this.course.id).subscribe((res) => {
-      this.showMessage('ok');
+      this.showMessage('delete');
     }, (err) => {
       this.showMessage(err.error.message);
       console.log(err);

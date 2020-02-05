@@ -19,6 +19,7 @@ export class AddEditCourseComponent implements OnInit, OnDestroy {
   display = false;
   subscriptions: Subscription[] = []
   pdfLocalUrl: any;
+  timeout: any;
 
   constructor(private route: ActivatedRoute,
     private toastService: ToastService,
@@ -82,6 +83,9 @@ export class AddEditCourseComponent implements OnInit, OnDestroy {
   }
 
   saveCourse() {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
     let lecturesToBeAdded = 0;
     this.course.lectures.forEach((lecture: Lecture) => {
       if (typeof lecture.attachment !== 'string') {
@@ -94,14 +98,14 @@ export class AddEditCourseComponent implements OnInit, OnDestroy {
         reader.readAsArrayBuffer(<Blob>lecture.attachment);
       }
     })
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       // console.log(JSON.stringify(this.course));
       this.subscriptions.push(this.coursesService.saveCourse(this.course).subscribe((res) => {
         this.toastService.addSuccess('Course saved successfully!');
       }, (err) => {
         this.toastService.addError(err.error.message);
       }));
-    }, 100 * lecturesToBeAdded);
+    }, 1000);
   }
 
   deleteLecture(lecture: Lecture) {
