@@ -15,6 +15,7 @@ export class HomeProfessorComponent implements OnInit {
     private toastService: ToastService) { }
 
   ngOnInit() {
+    this.router.navigate(['/professor/courses']);
   }
 
   logout() {

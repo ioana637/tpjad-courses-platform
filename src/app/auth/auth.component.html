@@ -1,5 +1,10 @@
 <div class="d-flex justify-content-center align-items-center">
-  <form name="form" class="mt-2" (ngSubmit)="login()" #f="ngForm" style="width: 400px;">
+  <form name="form" class="mt-2" (ngSubmit)="login()" #f="ngForm" style="width: 400px; position: absolute; top: 100px;" >
+    <div class="row">
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        <img src="../../assets/logo.PNG" style="width: 200px; height: auto;"/>
+      </div>
+    </div>
     <div class="row">
       <div class="form-group col-12" [ngClass]="{ 'has-error': f.submitted && !adminEmail.valid }">
         <input type="text" class="form-control" name="adminEmail" [(ngModel)]="model.email" #adminEmail="ngModel"

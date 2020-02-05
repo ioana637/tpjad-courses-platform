@@ -15,6 +15,7 @@ export class HomeStudentComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
+    this.router.navigate(['/student/my-courses']);
   }
 
   logout() {
