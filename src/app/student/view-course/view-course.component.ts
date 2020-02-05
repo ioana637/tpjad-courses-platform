@@ -32,16 +32,16 @@ export class ViewCourseComponent implements OnInit {
     this.displayPDF(lecture);
     let link = document.createElement("a");
     link.download = lecture.filename;
+    link.type = 'application/pdf';
     link.href = this.pdfSrc;
     link.click();
   }
 
   displayPDF(lecture: Lecture) {
-    let file = new File([lecture.attachment], lecture.filename, { type: 'application/pdf' });
-    // this.pdfSrc = lecture.attachment;
+    var byteArray = new Buffer(<string>lecture.attachment, 'base64');
+    let file = new File([byteArray], lecture.filename, { type: 'application/pdf' });
     this.pdfSrc = URL.createObjectURL(file);
     this.pdfSrc = this.domSanitizer.bypassSecurityTrustResourceUrl(this.pdfSrc);
-    // this.pdfSrc = this.pdfSrc.changingThisBreaksApplicationSecurity;
     console.log(this.pdfSrc);
   }
 
