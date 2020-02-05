@@ -12,6 +12,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserInterceptor } from '../services/user.interceptor';
 import { ToastModule } from 'primeng/toast';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -23,7 +24,9 @@ import { ToastModule } from 'primeng/toast';
     ButtonModule,
     CommonsModule,
     PdfViewerModule,
-    ToastModule
+    ToastModule,
+    FormsModule, 
+    ReactiveFormsModule
   ],
 })
 export class StudentModule { }
