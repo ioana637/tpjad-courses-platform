@@ -29,11 +29,13 @@ export class ViewCourseComponent implements OnInit {
 
   downloadFile(lecture: Lecture) {
     console.log('downloadFile');
-    this.displayPDF(lecture);
+    // var byteArray = new Buffer(<string>lecture.attachment, 'base64');
+    const blob = new Blob([lecture.attachment], { type: 'application/octet-stream' });
+    const fileUrl: any = this.domSanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
     let link = document.createElement("a");
     link.download = lecture.filename;
-    link.type = 'application/pdf';
-    link.href = this.pdfSrc;
+    link.type = 'application/octet-stream';
+    link.href = fileUrl;
     link.click();
   }
 

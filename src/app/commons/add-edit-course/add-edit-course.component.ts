@@ -32,7 +32,7 @@ export class AddEditCourseComponent implements OnInit, OnDestroy {
       this.subscriptions.push(this.coursesService.getCourseById(this.idCourse).subscribe(
         (res: Course) => {
           this.course = res;
-          console.log(res);
+          // console.log(res);
         }
       ))
 
@@ -69,9 +69,10 @@ export class AddEditCourseComponent implements OnInit, OnDestroy {
   }
 
   displayPdf(lecture: Lecture) {
-    const file3 = new Blob([lecture.attachment], { type: 'application/pdf' });
+    var byteArray = new Buffer(<string>lecture.attachment, 'base64');
+    const file3 = new Blob([byteArray], { type: 'application/pdf' });
     this.pdfLocalUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(file3));
-    this.pdfLocalUrl = this.pdfLocalUrl.changingThisBreaksApplicationSecurity;
+    // this.pdfLocalUrl = this.pdfLocalUrl.changingThisBreaksApplicationSecurity;
     console.log(this.pdfLocalUrl);
   }
 
@@ -86,21 +87,28 @@ export class AddEditCourseComponent implements OnInit, OnDestroy {
 
   saveCourse() {
     console.log('save course');
-    this.course.lectures = this.course.lectures.map((lecture: Lecture) => {
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        lecture.attachment = reader.result;
+    this.course.lectures.forEach((lecture: Lecture) => {
+      if (typeof lecture.attachment !== 'string') {
+        var reader = new FileReader();
+        reader.onload =  ()=> {
+           const arrayBuffer: any = reader.result;
+           lecture.attachment = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+        }
+        reader.readAsArrayBuffer(<Blob>lecture.attachment);
       }
-
-      reader.readAsArrayBuffer(<Blob>lecture.attachment);
-      return lecture;
     })
-    this.coursesService.saveCourse(this.course).subscribe((res) => {
-      console.log(res);
-    });
+    setTimeout(()=>{
+      console.log(JSON.stringify(this.course));
+      this.coursesService.saveCourse(this.course).subscribe((res) => {
+        console.log(res);
+      });
+
+    }, 100);
   }
 
   deleteLecture(lecture: Lecture, index: number) {
+    // const index = 
+    // TODO
     this.course.lectures.splice(index, 1);
   }
 
