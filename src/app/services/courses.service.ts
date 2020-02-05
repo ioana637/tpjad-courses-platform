@@ -41,6 +41,10 @@ export class CoursesService {
     return this.http.get(coursesDeleteAndGetById(courseId.toString()), {headers: this.httpHeaders} );
   }
 
+  deleteCourseById(courseId: number) {
+    return this.http.delete(coursesDeleteAndGetById(courseId.toString()), {headers: this.httpHeaders} );
+  }
+
   enrollToCourse(courseId: number) {
     return this.http.post(coursesEnroll(courseId.toString()), null, {headers: this.httpHeaders} );
   }
