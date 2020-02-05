@@ -15,6 +15,7 @@ export const coursesFilter= `${coursesManagementUrl}/filter`;
 export const coursesMy= `${coursesManagementUrl}/my-courses`;
 export function coursesDeleteAndGetById(id: string) { return `${coursesManagementUrl}/${id}`;}
 export function coursesEnroll(id: string) {return `${coursesManagementUrl}/${id}/enroll`;}
+export function coursesLeave(id: string) {return `${coursesManagementUrl}/${id}/leave`;}
 export function coursesStudentsForCourse(id: string) {return `${coursesManagementUrl}/${id}/students`;}
 export function coursesNumberStudents(id: string) {return `${coursesManagementUrl}/${id}/students-number`;}
 

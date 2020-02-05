@@ -15,6 +15,7 @@ export class CourseCardStudentComponent implements OnInit, OnDestroy {
   @Input() course: Course;
   @Input() viewMode: boolean;
   @Output() enrolledDone = new EventEmitter();
+  @Output() leaveDone = new EventEmitter();
   currentUser: User;
   subscriptions: Subscription[]=[];
   display = false;
@@ -41,6 +42,18 @@ export class CourseCardStudentComponent implements OnInit, OnDestroy {
       (res) => {
         this.toastService.addSuccess('You were enrolled');
         this.enrolledDone.emit(true);
+      },
+      (err) => {
+        this.toastService.addError(err.error.message);
+      }
+    ))
+  }
+
+  leaveCourse() {
+    this.subscriptions.push(this.coursesService.leaveCourse(this.course.id).subscribe(
+      (res) => {
+        this.toastService.addSuccess('You left course');
+        this.leaveDone.emit(true);
       },
       (err) => {
         this.toastService.addError(err.error.message);
