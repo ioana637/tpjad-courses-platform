@@ -98,12 +98,14 @@ export class AddEditCourseComponent implements OnInit, OnDestroy {
         reader.readAsArrayBuffer(<Blob>lecture.attachment);
       }
     })
-    const timeout = setTimeout(() => {
+    this.timeout = setTimeout(() => {
       // console.log(JSON.stringify(this.course));
       this.subscriptions.push(this.coursesService.saveCourse(this.course).subscribe((res) => {
         this.toastService.addSuccess('Course saved successfully!');
       }, (err) => {
-        this.toastService.addError(err.error.message);
+        console.log(err);
+        this.toastService.addError('Please try again. An error occured');
+        // this.toastService.addError(err.error.message);
       }));
     }, 1000);
   }

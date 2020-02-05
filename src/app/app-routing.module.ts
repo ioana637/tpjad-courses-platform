@@ -33,10 +33,10 @@ const routes: Routes = [
     loadChildren: () => import('./student/student.module').then(mod => mod.StudentModule),
     canActivate: [StudentGuardService]
   },
-  // {
-  //   path: '**',
-  //   redirectTo: ''
-  // }
+  {
+    path: '**',
+    redirectTo: ''
+  }
 ];
 
 @NgModule({
