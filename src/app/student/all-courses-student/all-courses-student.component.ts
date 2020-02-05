@@ -38,7 +38,6 @@ export class AllCoursesStudentComponent implements OnInit, OnDestroy {
   }
 
   fetchCourses(event) {
-    console.log('Fetch courses');
     this.fetchAllCourses();
   }
 

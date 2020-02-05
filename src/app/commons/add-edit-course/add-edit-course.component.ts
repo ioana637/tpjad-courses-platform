@@ -32,13 +32,11 @@ export class AddEditCourseComponent implements OnInit, OnDestroy {
       this.subscriptions.push(this.coursesService.getCourseById(this.idCourse).subscribe(
         (res: Course) => {
           this.course = res;
-          // console.log(res);
         }
       ))
 
     }
     else {
-      console.log('add Mode');
       this.mode = 'add';
 
       this.course = {
@@ -72,8 +70,6 @@ export class AddEditCourseComponent implements OnInit, OnDestroy {
     var byteArray = new Buffer(<string>lecture.attachment, 'base64');
     const file3 = new Blob([byteArray], { type: 'application/pdf' });
     this.pdfLocalUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(file3));
-    // this.pdfLocalUrl = this.pdfLocalUrl.changingThisBreaksApplicationSecurity;
-    console.log(this.pdfLocalUrl);
   }
 
   addNewLecture() {
@@ -86,7 +82,6 @@ export class AddEditCourseComponent implements OnInit, OnDestroy {
   }
 
   saveCourse() {
-    console.log('save course');
     let lecturesToBeAdded = 0;
     this.course.lectures.forEach((lecture: Lecture) => {
       if (typeof lecture.attachment !== 'string') {
@@ -100,10 +95,12 @@ export class AddEditCourseComponent implements OnInit, OnDestroy {
       }
     })
     setTimeout(() => {
-      console.log(JSON.stringify(this.course));
-      this.coursesService.saveCourse(this.course).subscribe((res) => {
-        console.log(res);
-      });
+      // console.log(JSON.stringify(this.course));
+      this.subscriptions.push(this.coursesService.saveCourse(this.course).subscribe((res) => {
+        this.toastService.addSuccess('Course saved successfully!');
+      }, (err) => {
+        this.toastService.addError(err.error.message);
+      }));
     }, 100 * lecturesToBeAdded);
   }
 

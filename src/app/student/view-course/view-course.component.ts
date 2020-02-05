@@ -22,19 +22,17 @@ export class ViewCourseComponent implements OnInit {
     this.courseId = parseInt(this.route.snapshot.paramMap.get("id"));
     this.courseService.getCourseById(this.courseId).subscribe((res) => {
       this.course = res;
-      console.log(res);
       this.course.professor = this.course.users.filter((user) => user.role === 'PROFESSOR')[0];
     })
   }
 
   downloadFile(lecture: Lecture) {
-    console.log('downloadFile');
-    // var byteArray = new Buffer(<string>lecture.attachment, 'base64');
-    const blob = new Blob([lecture.attachment], { type: 'application/octet-stream' });
+    var byteArray = new Buffer(<string>lecture.attachment, 'base64');
+    const blob = new Blob([byteArray], { type: 'application/pdf' });
     const fileUrl: any = this.domSanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
     let link = document.createElement("a");
     link.download = lecture.filename;
-    link.type = 'application/octet-stream';
+    link.type = 'application/pdf';
     link.href = fileUrl;
     link.click();
   }
@@ -44,7 +42,6 @@ export class ViewCourseComponent implements OnInit {
     let file = new File([byteArray], lecture.filename, { type: 'application/pdf' });
     this.pdfSrc = URL.createObjectURL(file);
     this.pdfSrc = this.domSanitizer.bypassSecurityTrustResourceUrl(this.pdfSrc);
-    console.log(this.pdfSrc);
   }
 
 

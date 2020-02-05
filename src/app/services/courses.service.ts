@@ -22,7 +22,6 @@ export class CoursesService {
   }
 
   saveCourse(course: Course) {
-    console.log(course);
     return this.http.post(coursesAddEdit, JSON.stringify(course), {headers: this.httpHeaders});
   }
 

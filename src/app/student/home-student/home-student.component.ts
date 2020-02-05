@@ -26,5 +26,4 @@ export class HomeStudentComponent implements OnInit {
       this.toastService.addError(error.error.message);
     })
   }
-
 }
