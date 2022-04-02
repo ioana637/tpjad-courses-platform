@@ -26,12 +26,12 @@ const routes: Routes = [
   {
     path: 'professor',
     loadChildren: () => import('./professor/professor.module').then(mod => mod.ProfessorModule),
-    canActivate: [ProfessorGuardService]
+    // canActivate: [ProfessorGuardService]
   },
   {
     path: 'student',
     loadChildren: () => import('./student/student.module').then(mod => mod.StudentModule),
-    canActivate: [StudentGuardService]
+    // canActivate: [StudentGuardService]
   },
   {
     path: '**',
